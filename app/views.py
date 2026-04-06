@@ -8,7 +8,12 @@ This file creates your application.
 from app import app
 from flask import render_template, request, jsonify, send_file
 import os
-
+from app import db
+from app.models import Movie
+from app.forms import MovieForm
+from werkzeug.utils import secure_filename
+from flask_wtf.csrf import generate_csrf
+from flask import send_from_directory
 
 ###
 # Routing for your application.
@@ -56,6 +61,58 @@ def add_header(response):
     response.headers['Cache-Control'] = 'public, max-age=0'
     return response
 
+@app.route('/api/v1/movies', methods=['POST'])
+def movies():
+    form = MovieForm()
+
+    if form.validate_on_submit():
+        file = form.poster.data
+        filename = secure_filename(file.filename)
+
+        upload_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+        file.save(upload_path)
+
+        movie = Movie(
+            title=form.title.data,
+            description=form.description.data,
+            poster=filename
+        )
+
+        db.session.add(movie)
+        db.session.commit()
+
+        return jsonify({
+            "message": "Movie Successfully added",
+            "title": movie.title,
+            "poster": filename,
+            "description": movie.description
+        })
+
+    return jsonify({"errors": form_errors(form)})
+
+@app.route('/api/v1/csrf-token', methods=['GET'])
+def get_csrf():
+    return jsonify({'csrf_token': generate_csrf()})
+
+@app.route('/api/v1/movies', methods=['GET'])
+def get_movies():
+    movies = Movie.query.all()
+
+    return jsonify({
+        "movies": [
+            {
+                "id": m.id,
+                "title": m.title,
+                "description": m.description,
+                "poster": f"/api/v1/posters/{m.poster}"
+            }
+            for m in movies
+        ]
+    })
+
+@app.route('/api/v1/posters/<filename>')
+def get_poster(filename):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
 
 @app.errorhandler(404)
 def page_not_found(error):
