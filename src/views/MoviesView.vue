@@ -23,8 +23,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="movies-page" :class="{ 'modal-open': selectedMovie }">
-
+  <div class="app-page movies-page" :class="{ 'modal-open': selectedMovie }">
     <!-- 🎬 TITLE -->
     <h2 class="page-title">Trending Now</h2>
 

@@ -1,32 +1,46 @@
 /* 🎬 ULTRA MODERN STREAMING UI */
 
+/* 🔥 RESET + GLOBAL BACKGROUND */
 html, body, #app {
   margin: 0 !important;
   padding: 0 !important;
   height: 100%;
+
+  background: radial-gradient(circle at top, #0f172a, #020617) !important;
 }
 
-body {
-  background: radial-gradient(circle at 20% 0%, #0f172a, #020617 70%);
+/* 🚫 REMOVE BOOTSTRAP WHITE BACKGROUNDS */
+.container {
+  background: transparent !important;
 }
 
-main {
-  margin: 0 !important;
-  padding: 0 !important;
+/* 🔧 GLOBAL RESET */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-header {
-  margin: 0 !important;
-  padding: 0 !important;
+/* 🌌 MAIN APP WRAPPER */
+.app-main {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0f172a, #020617);
 }
 
+/* 🌌 SHARED PAGE LAYOUT */
+.app-page {
+  min-height: 100vh;
+  padding: 80px 20px 20px;
+}
+
+/* 🎨 VARIABLES */
 :root {
   --bg-main: #020617;
   --bg-soft: #020c1b;
   --bg-glass: rgba(15, 23, 42, 0.6);
 
-  --accent: #22d3ee;       /* cyan */
-  --accent-alt: #a855f7;   /* purple */
+  --accent: #22d3ee;
+  --accent-alt: #a855f7;
 
   --text-main: #f1f5f9;
   --text-muted: #94a3b8;
@@ -34,46 +48,21 @@ header {
   --border: rgba(255, 255, 255, 0.08);
 }
 
-/* 🔧 RESET EVERYTHING */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-/* 🚨 REMOVE ALL SPACING ISSUES */
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-/* 🌌 BACKGROUND */
+/* 🧠 BASE TYPOGRAPHY */
 body {
   font-family: Inter, system-ui, sans-serif;
-  background: radial-gradient(circle at top, #0f172a, #020617);
   color: var(--text-main);
   overflow-x: hidden;
 }
 
-/* 🚫 REMOVE DEFAULT BOOTSTRAP OFFSET */
-#app {
-  margin: 0;
-  padding: 0;
-}
-
-/* 🎬 NAVBAR (GLASS) */
+/* 🎬 NAVBAR */
 .custom-nav {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-
   height: 60px;
 
-  margin: 0;
   padding: 0 20px;
 
   background: rgba(10, 15, 25, 0.75);
@@ -87,15 +76,9 @@ body {
   z-index: 9999;
 }
 
-/* Push content below navbar */
-.movies-page {
-  padding: 80px 20px 20px;
-}
-
 /* 🎬 BRAND */
 .navbar-brand {
   font-weight: 700;
-  letter-spacing: 1px;
   color: var(--accent) !important;
 }
 
@@ -125,7 +108,7 @@ body {
   background: var(--accent);
 }
 
-/* 🎬 TITLE */
+/* 🎬 PAGE TITLE */
 .page-title {
   font-size: 2.2rem;
   font-weight: 700;
@@ -148,7 +131,7 @@ body {
   display: none;
 }
 
-/* 🎬 CARD */
+/* 🎬 MOVIE CARD */
 .movie-card {
   min-width: 260px;
   height: 160px;
@@ -157,7 +140,13 @@ body {
   transition: all 0.3s ease;
 }
 
-/* 🎥 GLASS CARD WRAPPER */
+.movie-card:hover {
+  transform: scale(1.12);
+  z-index: 5;
+  box-shadow: 0 20px 60px rgba(34,211,238,0.35);
+}
+
+/* 🎥 CARD WRAPPER */
 .poster-wrapper {
   width: 100%;
   height: 100%;
@@ -178,20 +167,9 @@ body {
   transition: all 0.4s ease;
 }
 
-/* ✨ HOVER EFFECT */
-.movie-card:hover {
-  transform: scale(1.15);
-  z-index: 5;
-}
-
 .movie-card:hover img {
   transform: scale(1.1);
   filter: brightness(1.1);
-}
-
-/* 💡 GLOW */
-.movie-card:hover {
-  box-shadow: 0 20px 60px rgba(0,229,255,0.35);
 }
 
 /* 🎬 OVERLAY */
@@ -202,9 +180,6 @@ body {
   padding: 12px;
 
   background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-
-  display: flex;
-  align-items: flex-end;
 }
 
 .overlay h3 {
@@ -213,7 +188,7 @@ body {
   color: white;
 }
 
-/* 🎥 MODAL (GLASS) */
+/* 🎥 MODAL */
 .movie-modal {
   position: fixed;
   top: 0;
@@ -228,10 +203,10 @@ body {
   justify-content: center;
   align-items: center;
 
-  z-index: 2001;
+  z-index: 9999;
 }
 
-/* 💎 PREMIUM CARD */
+/* 💎 MODAL CARD */
 .modal-content {
   width: 600px;
   max-width: 90%;
@@ -245,39 +220,34 @@ body {
     rgba(2, 6, 23, 0.9)
   );
 
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid var(--border);
 
-  box-shadow: 
+  box-shadow:
     0 25px 80px rgba(0,0,0,0.8),
     0 0 60px rgba(34,211,238,0.2);
 
   animation: fadeIn 0.3s ease;
 }
 
-/* 🎥 IMAGE */
 .modal-content img {
   width: 100%;
   height: 260px;
   object-fit: cover;
 }
 
-/* 🎬 TEXT SECTION */
 .modal-content .content {
   padding: 20px;
-  text-align: left;
 }
 
 .modal-content h2 {
-  font-size: 1.5rem;
   margin-bottom: 10px;
 }
 
 .modal-content p {
   color: var(--text-muted);
-  line-height: 1.5;
 }
 
-/* ✨ ANIMATION */
+/* ✨ MODAL ANIMATION */
 @keyframes fadeIn {
   from {
     transform: scale(0.9);
@@ -290,20 +260,21 @@ body {
 }
 
 /* 🎯 FORM */
-input,
-textarea {
+input, textarea {
+  width: 100%;
+  padding: 10px;
+
   background: rgba(255,255,255,0.05);
   border: 1px solid var(--border);
   color: var(--text-main);
+
   border-radius: 10px;
-  padding: 10px;
 }
 
-input:focus,
-textarea:focus {
+input:focus, textarea:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 2px rgba(0,229,255,0.3);
+  box-shadow: 0 0 0 2px rgba(34,211,238,0.3);
 }
 
 /* 🚀 BUTTON */
@@ -314,14 +285,15 @@ button {
   font-weight: 600;
   color: white;
   padding: 10px 16px;
+  cursor: pointer;
 }
 
 button:hover {
   transform: scale(1.05);
-  box-shadow: 0 8px 20px rgba(0,229,255,0.4);
+  box-shadow: 0 8px 20px rgba(34,211,238,0.4);
 }
 
-/* 📱 MOBILE */
+/* 📱 RESPONSIVE */
 @media (max-width: 768px) {
   .movie-card {
     min-width: 200px;
